@@ -1,0 +1,67 @@
+<div class="top">
+    <div class="container marketing">
+        <div class="row">
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">设备列表：</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="devicesUdid"
+                                    ng-options="devicesUdid for devicesUdid in devicesUdidList"
+                                    ng-change="getDeviceInfo(devicesUdid)">
+                                <option value="">无</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">android版本：</label>
+                        <div class="col-md-8">
+                            <input class="form-control" ng-model="deviceInfo.version" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">分辨率：</label>
+                        <div class="col-md-8">
+                            <input class="form-control" ng-model="deviceInfo.display" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">手机品牌：</label>
+                        <div class="col-md-8">
+                            <input class="form-control" ng-model="deviceInfo.brand" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">手机名字：</label>
+                        <div class="col-md-8">
+                            <input class="form-control" ng-model="deviceInfo.name" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">包列表：</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="package"
+                                    ng-options="package for package in devicePackages">
+                                <option value="">无</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<button class="btn btn-default" type="button" ng-click="start()">test</button>
+<div class="col-md-10">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <p class="panel-title"><span class="glyphicon glyphicon glyphicon-signal"></span>&nbsp测试结果</p>
+        </div>
+        <div class="panel-body">
+            <canvas id="line" class="chart chart-line" chart-data="data"
+                    chart-labels="labels" chart-series="series" chart-options="options"
+                    chart-dataset-override="datasetOverride" chart-colors="colors">
+            </canvas>
+        </div>
+    </div>
+</div>

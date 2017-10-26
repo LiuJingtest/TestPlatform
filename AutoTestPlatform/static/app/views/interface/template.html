@@ -1,0 +1,97 @@
+<div>
+    <div class="row">
+        <div class="wid sidebar">
+            <ul class="contain nav nav-pills nav-stacked nav-sidebar">
+                <li class="{$activeList[0]$}"><a ui-sref=".homepage" ng-click="active(0)"> 项目首页</a></li>
+                <li class="{$activeList[1]$}"><a ui-sref=".globalVar" ng-click="active(1)"> 全局变量</a></li>
+                <li class="{$activeList[2]$}"><a ui-sref=".method" ng-click="active(2)"> 常用方法</a></li>
+                <li class="{$activeList[3]$}"><a ui-sref=".validation" ng-click="active(3)"> 验证器</a></li>
+               <!--<li class="{$activeList[4]$}"><a ui-sref=".response" ng-click="active(4)"> 通用响应配置</a></li>-->
+                <li class="{$activeList[5]$}"><a ui-sref=".APIDependency" ng-click="active(5)"> API依赖库</a></li>
+                <li class="{$activeList[6]$}"><a ui-sref=".APICase" ng-click="active(6)"> API用例库</a></li>
+                <li class="{$activeList[7]$}"><a ui-sref=".task" ng-click="active(7)"> 定时任务</a></li>
+                <li class="{$activeList[8]$}"><a ui-sref=".testReport" ng-click="active(8)"> 测试报告</a></li>
+                <li class="{$activeList[9]$}"><a ui-sref=".record" ng-click="active(9)"> 录制</a></li>
+            </ul>
+        </div>
+        <div  class="dis container-fluid" ui-view="interface_view"></div>
+    </div>
+
+       <div class="modal fade" id="Intro" aria-hidden="true" >
+        <div class="modal-dialog modalWidth">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        使用说明
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body-div">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <p>全局变量:在执行测试用例时动态改变用例属性</p>
+                                <ul>
+                                    <li>1.请在全局变量添加变量名为"host"的变量，作为请求的域名</li>
+                                    <li>2.若需要添加请求头，请在全局变量添加变量名为"headers"的变量，格式为json</li>
+                                    <li>3.若需要设置请求的编码，请在全局变量添加变量名为"encode"的变量，默认为"utf-8"</li>
+                                    <li>4.若需要使用数据库连接，请在全局变量添加变量名为"DB"的变量，格式给json，键值分别为"host","pwd","user","db_name","charset"</li>
+                                </ul>
+                                </br>
+                                <p>常用方法:Python函数，对入参进行处理并且返回结果</p>
+                                <ul>
+                                    <li>1.使用的python版本为3.5.x</li>
+                                    <li>2.不要在函数里添加任务print语句</li>
+                                    <li>3.使用{&amp;&amp;}作为标志，进行参数的替换，如{&amp;get_md5('000000')&amp;}</li>
+                                </ul>
+                                </br>
+                                <p>验证器:Python函数，如果函数返回True，则测试通过；返回False，则测试失败。默认提供一个文本包含的验证器。</p>
+                                <ul>
+                                    <li>1.使用的python版本为3.5.x</li>
+                                    <li>2.不要在函数里添加任务print语句</li>
+                                </ul>
+                                </br>
+                                <p>API依赖库:为后续用例提供变量的接口</p>
+                                <ul>
+                                    <li>1.使用$.作为参数提取的标志，使用jsonpath进行提取。如{"code":10000,"uid":219},则可以使用$.uid进行提取</li>
+                                    <li>2.只支持json格式</li>
+                                </ul>
+                                </br>
+                                <p>API用例库:测试用例库</p>
+                                <ul>
+                                    <li>1.添加套件信息，对用例进行分类</li>
+                                    <li>2.针对业务逻辑，提供模块化的管理</li>
+                                    <li>3.每一个接口对应多个用例</li>
+                                    <li>4.配置用例的基本信息，请求信息（请求参数，依赖接口，sql等），响应信息（验证器，状态码，期望返回，schema）等</li>
+                                </ul>
+                                </br>
+                                <p>定时任务:定时执行某一个用例套件</p>
+                                <ul>
+                                    <li>1.可以使用循环，在周期内循环运行；也可以单独运行一次</li>
+                                </ul>
+                                <p>测试报告:测试用例执行后，生成的报告</p>
+                                <ul>
+                                    <li>1.有对于状态码，响应头，响应体，schema检验的结果，以及详情</li>
+                                </ul>
+                                </ul>
+                                <p>录制:通过手机录制case</p>
+                                <ul>
+                                    <li>1.使用anyproxy进行抓包</li>
+                                    <li>2.配置好手机后，填入端口号8003，即可进行录制</li>
+                                    <li>3.录制完后，点击停止录制，生成接口列表，即可生成用例</li>
+                                    <li>4.编辑保存之后，即可用过运行，来看接口是否配置正确。保存成功的用例，会进入API用例库对应的接口下</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer btn_div">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

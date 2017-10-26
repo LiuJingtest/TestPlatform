@@ -1,0 +1,36 @@
+<div class="navbar-wrapper">
+    <div class="container">
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#" ng-bind="pro.pro_name"></a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="{$activeItemList[0]$}"><a ng-click="recordItemID(0)" href="#project/case">用例管理</a></li>
+                        <li class="{$activeItemList[1]$}"><a ng-click="recordItemID(1)" href="#project/interface">接口测试</a></li>
+                        <li class="{$activeItemList[2]$}"><a ng-click="recordItemID(2)" href="#project/ui">功能测试</a></li>
+                        <li class="{$activeItemList[3]$}"><a ng-click="recordItemID(3)" href="#project/app-performance">APP性能测试</a></li>
+                        <li class="{$activeItemList[4]$}"><a ng-click="recordItemID(4)" href="#project/web">服务器性能测试</a></li>
+                        <li class="{$activeItemList[5]$}"><a ng-click="recordItemID(5)" href="#project/tools">小工具</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    </div>
+</div>
+
+
+
+<div ui-view="project_view"></div>
+
+

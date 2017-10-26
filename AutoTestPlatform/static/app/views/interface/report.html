@@ -1,0 +1,399 @@
+<div class="top1">
+    <div>
+        <h1 class="page-header text-primary">测试报告</h1>
+    </div>
+    <div class="row top4" ng-show="repList">
+        <form class="col-md-2 bs-example bs-example-form">
+            <div class="input-group">
+                <span class="input-group-addon">套件</span>
+                <select class="form-control" ng-model="suite" ng-options="suite.suite_name for suite in suiteList">
+                    <option value="">无</option>
+                </select>
+            </div>
+        </form>
+
+        <form class="col-md-3 bs-example bs-example-form">
+            <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy">
+                <span class="input-group-addon">起始时间</span>
+                <input type="text" class="form-control" ng-model="startDate" readonly style="background: white">
+                <span class=" input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </form>
+        <form class="col-md-3 bs-example bs-example-form">
+            <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy"
+                 data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                <span class="input-group-addon">结束时间</span>
+                <input class="form-control" type="text" ng-model="endDate" readonly style="background: white">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </form>
+        <form class="col-md-2 bs-example bs-example-form">
+            <div class="input-group">
+                <span class="input-group-addon">标题</span>
+                <input type="text" class="form-control" ng-model="title">
+            </div>
+        </form>
+        <div class="btn-group col-md-2">
+            <button class="btn btn-info" ng-click="inquiry(reportName)">查询</button>
+            <button class="btn btn-danger" ng-click="clearSelect()">清除</button>
+        </div>
+        <div class="top3 col-md-11">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>标题</th>
+                    <th>套件</th>
+                    <th>时间</th>
+                    <th>运行时长</th>
+                    <th>成功用例数</th>
+                    <th>失败用例数</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="result in pageList">
+                    <td ng-bind="(currentPage-1)*15+$index+1"></td>
+                    <td ng-bind="result.report_name"></td>
+                    <td ng-bind="result.suite_name"></td>
+                    <td ng-bind="result.start_time*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td>
+                    <td ng-bind="timeInval[$index]"></td>
+                    <td ng-bind="result.pass_num"></td>
+                    <td ng-bind="result.fail_num"></td>
+                    <td>
+                        <a ng-click="showDetail(result)">查看详情</a>
+                        <a ng-click="delReport(result.result_id)">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pull-right marginRight" ng-show="totalItems>15">
+            <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged(1)"
+                        class="pagination" items-per-page="15" previous-text="上一页" next-text="下一页" first-text="&laquo;" last-text="&raquo;">
+        </div>
+    </div>
+
+    <div ng-show="repDetail">
+        <a ng-click="returnList()">&lt;&lt;&lt;返回报告列表</a>
+        <div class="row top3">
+            <span class="col-md-3">
+                <h4>报告名：{$result.report_name$}</h4>
+                开始时间：<span ng-bind="result.start_time*1000|date:'yyyy-MM-dd HH:mm:ss'"></span></br>
+                结束时间：<span ng-bind="result.end_time*1000|date:'yyyy-MM-dd HH:mm:ss'"></span>
+            </span>
+            <div class="pull-right marginRight div-set" >
+                <button ng-disabled="true" type="button" class="textsize btn btn-lg btn-success">
+                    <span ng-bind="result.pass_num"></span></br>通过
+                </button>
+                <button ng-disabled="true" type="button" class="textsize btn btn-lg btn-danger" >
+                    <span ng-bind="result.fail_num"></span></br>失败
+                </button>
+                <button ng-disabled="true" type="button" class="textsize btn btn-lg btn-danger" >
+                    <span ng-bind="result.unrun_num"></span></br>错误
+                </button>
+                <button ng-disabled="true" type="button" class="textsize btn btn-lg btn-info">
+                    <span ng-bind="result.pass_num+result.fail_num"></span></br>合计
+                </button>
+            </div>
+        </div>
+            <div class="top2 col-md-11">
+                <table class="design col-xs-12">
+                    <tr>
+                        <th class="wid9">ID</th>
+                        <th class="wid3">接口名称</th>
+                        <th class="wid4">用例名称</th>
+                        <th class="wid3">请求方法</th>
+                        <th class="wid3">验证器</th>
+                        <th class="wid9">结果</th>
+                    </tr>
+                    <tr ng-repeat="res in reaultDetailList">
+                        <!--ng-style="styleList[$index]" ng-mouseenter="tableGray($index)" ng-mouseleave="tableWhite($index)"-->
+                        <td ng-show="reportDetal[$index]" colspan="6">
+                            <table class="col-xs-12">
+                                <tr>
+                                    <td class="wid9">
+                                        <a ng-bind="(currentPage2-1)*15+$index+1+'>'" ng-click="showReport(res,$index)"></a>
+                                    </td>
+                                    <td class="wid3" ng-bind="res.api_name"></td>
+                                    <td class="wid4" ng-bind="res.case_name"></td>
+                                    <td class="wid3" ng-bind="res.case_method"></td>
+                                    <td class="wid3" ng-bind="res.check_desc"></td>
+                                    <td class="wid9">
+                                        <button ng-disabled="true" type="button" class="btn btn-success"
+                                                ng-show="res.is_pass==1">
+                                            通过
+                                        </button>
+                                        <button ng-disabled="true" type="button" class="btn btn-danger"
+                                                ng-show="res.is_pass==0">
+                                            失败
+                                        </button>
+                                        <button ng-disabled="true" type="button" class="btn btn-danger"
+                                                ng-show="res.is_pass==2">
+                                            错误
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="container">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <td>请求信息</td>
+                                    </tr>
+                                    </thead>
+                                    <tr>
+                                        <td class="detailTable1">URL</td>
+                                        <td class="detailTable2" ng-bind="res.input_data.url"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="detailTable1">body参数</td>
+                                        <td class="detailTable2" ng-bind="res.input_data.body"></td>
+                                    </tr>
+                                    <thead>
+                                    <tr>
+                                        <td>响应信息</td>
+                                    </tr>
+                                    </thead>
+                                    <tr>
+                                        <td class="detailTable1">状态码</td>
+                                        <td class="detailTable2" ng-show="res.status_check==null">
+                                            <button class="btn-link" ng-click="getResult(res,1)">实际结果</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.status_check==0">
+                                            <button class="btn-link" ng-click="getResult(res,1)">失败</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.status_check==1">
+                                            <button class="btn-link" ng-click="getResult(res,1)">通过</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.status_check==2">
+                                            <button class="btn-link" ng-disabled="true">未校验</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.status_check==3">
+                                            <button class="btn-link" ng-click="getResult(res,1)">错误</button>
+                                        </td>
+                                    </tr>
+                                    <!--
+                                    <tr>
+                                        <td class="detailTable1">响应头</td>
+                                        <td class="detailTable2" ng-show="res.header_check==null">
+                                            <button class="btn-link" ng-click="getResult(res,4)">实际结果</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.header_check==0">
+                                            <button class="btn-link" ng-click="getResult(res,4)">失败</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.header_check==1">
+                                            <button class="btn-link" ng-click="getResult(res,4)">通过</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.header_check==2">
+                                            <button class="btn-link" ng-disabled="true">未校验</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.header_check==3">
+                                            <button class="btn-link" ng-click="getResult(res,4)">错误</button>
+                                        </td>
+                                    </tr>
+                                    -->
+                                    <tr>
+                                        <td class="detailTable1">body</td>
+                                        <td class="detailTable2" ng-show="res.body_check==1">
+                                            <button class="btn-link" ng-click="getResult(res,2)">通过</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.body_check==0">
+                                            <button class="btn-link" ng-click="getResult(res,2)">失败</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.body_check==2">
+                                            <button class="btn-link" ng-disabled="true">未校验</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.body_check==3">
+                                            <button class="btn-link" ng-click="getResult(res,2)">错误</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="detailTable1">schema</td>
+                                        <td class="detailTable2" ng-show="res.schema_check==1">
+                                            <button class="btn-link" ng-click="getResult(res,3)">通过</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.schema_check==0">
+                                            <button class="btn-link" ng-click="getResult(res,3)">失败</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.schema_check==2">
+                                            <button class="btn-link" ng-disabled="true">未校验</button>
+                                        </td>
+                                        <td class="detailTable2" ng-show="res.schema_check==3">
+                                            <button class="btn-link" ng-click="getResult(res,3)">错误</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                        <td>
+                            <a ng-show="!reportDetal[$index]" ng-bind="(currentPage2-1)*15+$index+1+'>'"
+                               ng-click="showReport(res,$index)"></a>
+                        </td>
+                        <td ng-show="!reportDetal[$index]" ng-bind="res.api_name"></td>
+                        <td ng-show="!reportDetal[$index]" ng-bind="res.case_name"></td>
+                        <td ng-show="!reportDetal[$index]" ng-bind="res.case_method"></td>
+                        <td ng-show="!reportDetal[$index]" ng-bind="res.check_desc"></td>
+                        <td ng-show="!reportDetal[$index]">
+                            <button type="button" ng-disabled="true" class="btn btn-success" ng-show="res.is_pass==1">
+                                通过
+                            </button>
+                            <button type="button" ng-disabled="true" class="btn btn-danger" ng-show="res.is_pass==0">
+                                失败
+                            </button>
+                            <button ng-disabled="true" type="button" class="btn btn-danger" ng-show="res.is_pass==2">
+                                错误
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="pull-right marginRight" ng-show="totalItems2>15">
+            <pagination boundary-links="true" total-items="totalItems2" ng-model="currentPage2" items-per-page="15" ng-change="pageChanged(2)"
+                        class="pagination" previous-text="上一页" next-text="下一页" first-text="&laquo;" last-text="&raquo;" >
+        </div>
+    </div>
+
+    <div class="modal fade" id="bodyDetail">
+        <div class="modal-dialog modalWidth">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">验证器：</label>
+                            <div class="col-md-11">
+                                <input type="text" style="background-color: white" class="form-control"
+                                       ng-model="res.check_desc" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">实际响应：</label>
+                            <div class="col-md-11">
+                                <textarea type="text" rows="5" style="background-color: white" class="form-control"
+                                          rows="" ng-model="res.out_data.response_data.body" readonly>
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">期望响应：</label>
+                            <div class="col-md-11">
+                                <input type="text" style="background-color: white" class="form-control"
+                                       ng-model="res.exp_data" readonly>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="schemaDetail">
+        <div class="modal-dialog modalWidth">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">实际响应：</label>
+                            <div class="col-md-11">
+                                <textarea type="text" rows="7" style="background-color: white" class="form-control"
+                                          ng-model="res.out_data.response_data.body" readonly>
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">schema：</label>
+                            <div class="col-md-11">
+                                <textarea type="text" rows="7" style="background-color: white" class="form-control"
+                                          rows="" ng-model="res.case_schema" readonly>
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">校验信息：</label>
+                            <div class="col-md-11">
+                                <input type="text" style="background-color: white" class="form-control" readonly
+                                       ng-model="res.schema_msg">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--
+    <div class="modal fade" id="headerDetail">
+        <div class="modal-dialog modalWidth">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">响应头：</label>
+                            <div class="col-md-11">
+                                    <textarea type="text" rows="7" style="background-color: white" class="form-control"
+                                              ng-model="res.header" readonly>
+                                    </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">期望响应头：</label>
+                            <div class="col-md-11">
+                                    <textarea type="text" rows="7" style="background-color: white" class="form-control"
+                                              rows="" ng-model="res.exp_header" readonly>
+                                    </textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+
+    <div class="modal fade" id="statusDetail">
+        <div class="modal-dialog modalWidth">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">状态码：</label>
+                            <div class="col-md-11">
+                                <input type="text" style="background-color: white" class="form-control"
+                                       ng-model="res.out_data.status_code" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">期望状态码：</label>
+                            <div class="col-md-11">
+                                <input type="text" rows="7" style="background-color: white" class="form-control" rows=""
+                                       ng-model="res.exp_status" readonly>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

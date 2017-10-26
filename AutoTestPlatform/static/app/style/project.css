@@ -1,0 +1,245 @@
+body{font-family: 微软雅黑;}
+
+.sidebar {
+    display: none;
+}
+@media (min-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 50px;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        display: block;
+        padding: 20px;
+        overflow-x: hidden;
+        overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        background-color: #f5f5f5;
+        border-right: 1px solid #eee;
+    }
+}
+
+a{color: #3c3c3c}
+a:link{text-decoration:none ;color: #3c3c3c}
+a:visited {text-decoration:none ;color: #3c3c3c}
+a:hover {text-decoration:none ;cursor:pointer;color: #3c3c3c}
+a:active {text-decoration:none ;color: #3c3c3c}
+
+
+.top{
+    margin-top: 60px;
+}
+
+.top1{
+    margin-top:65px;
+}
+
+.top4{
+    margin-top:40px;
+}
+
+.top3{
+    margin-top:15px;
+}
+
+.top2{
+    margin-top:20px;
+}
+
+.wid{
+    width: 13%;
+}
+
+.dis{
+    margin-left: 15%;
+}
+
+.topp{
+    margin-top:340px;
+}
+
+.nav-sidebar {
+    margin-right: -21px; /* 20px padding + 1px border */
+    margin-bottom: -20px;
+    margin-left: -20px;
+}
+
+.opt{
+    opacity: .2;
+}
+.opt1{
+    opacity: 0;
+}
+
+.opt:hover{
+    opacity: .9;
+}
+
+.color{
+    background-color: #bbb;
+}
+
+.wid1{
+    width:15%;
+    text-align:right;
+}
+
+.wid2{
+    width:30%;
+}
+
+.wid6{
+    width:5%;
+    text-align:right;
+}
+
+.wid7{
+    width:50%;
+    font-family: Consolas, monospace, serif;
+}
+
+.textsize{
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: center;
+    margin-right: 20px;
+    margin-bottom: 5px;
+    font-size: 15px;
+    width:60px;
+    height:60px;
+}
+
+.marginRight{
+    margin-right: 10%;
+}
+
+.marginLeft{
+    margin-left: 20px;
+}
+
+.wid9{
+    width:5%;
+    text-align: left;
+    color:#3c3c3c;
+    /*padding-bottom: 8px;*/
+}
+
+.wid3{
+    width:10%;
+    text-align: left;
+    color:#3c3c3c;
+    /*padding-bottom: 8px;*/
+}
+
+.wid4{
+    width:60%;
+    text-align: left;
+    color:#3c3c3c;
+    /*padding-bottom: 8px;*/
+}
+
+.wid5{
+    width:100%;
+}
+
+.detailTable1{
+    font-family: Consolas, monospace, serif;
+    width:15%;
+    text-align:right;
+    border: 1px #aaaaaa solid;
+    background-color: #c9dde1;
+}
+
+
+.detailTable2{
+    font-family: Consolas, monospace, serif;
+    width:80%;
+    text-align:left;
+    border: 1px #aaaaaa solid;
+}
+
+.design th{
+    background-color:#eeeeee;
+    border-bottom: 1px #aaaaaa solid;
+}
+
+.design td{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: 1px #aaaaaa solid;
+}
+
+.design{
+    width:100%;
+    table-layout:fixed ;
+}
+
+.tableWid1{
+    width:3%;
+    font-size: 14px;
+    font-family: Consolas, monospace, serif;
+}
+
+.tableWid2{
+    width:5%;
+    font-size: 14px;
+    font-family: Consolas, monospace, serif;
+    overflow-x:hidden;overflow-y:hidden;
+}
+
+.tableWid3{
+    width:15%;
+    font-size: 14px;
+    font-family: Consolas, monospace, serif;
+}
+
+.tableWid4{
+    width:20%;
+    font-size: 14px;
+    font-family: Consolas, monospace, serif;
+}
+
+.tableWid5{
+    width:10%;
+    font-size: 14px;
+    font-family: Consolas, monospace, serif;
+}
+
+textarea{
+    resize: none;
+    font-size: 14px;
+    font-family: Consolas, monospace, serif;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.modalWidth{
+    width:60%;
+}
+.modalWidth2{
+    width:45%;
+}
+
+th,tr{
+    height: 39px;
+}
+
+.div-set{
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+}
+
+.module_li em {
+    position: absolute;
+    visibility: hidden;
+}
+
+
+
+
+
+
+
+
+

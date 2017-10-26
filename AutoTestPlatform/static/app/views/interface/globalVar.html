@@ -1,0 +1,361 @@
+<div class="top1">
+    <div>
+        <h1 class="page-header text-primary">全局变量</h1>
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div>
+                    <ul class="nav nav-tabs">
+                        <li class="{$evnactive$}">
+                            <a ng-click="showEvnDiv()">环境列表</a></li>
+                        <li class="{$varactive$}">
+                            <a ng-click="showVarDiv()">变量列表</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" ng-click="addEnv()">
+                                新增环境
+                            </button>
+                            <button type="button" class="btn btn-default" ng-click="addVar()">
+                                新增变量
+                            </button>
+                        </div>
+                    </div>
+                    <form>
+                        <div class="col-md-3 col-md-offset-4">
+                            <input class="form-control">
+                        </div>
+                        <div class="col-md-1">
+                            <button class="form-control">查询</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel-body" ng-show="showVarCom">
+                <div ng-repeat="env in envPageList">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"  ng-mouseenter="shownCom=true" ng-mouseleave="shownCom=false" >
+                                <a ng-click="getEnvVar(env.env_id,$index)" ng-bind="env.env_name" ></a>
+                                <div class="pull-right">
+                                    <a ng-show="shownCom" ng-click="editEnv(env.env_id)"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+                                    <a ng-show="shownCom" ng-click="cfDel(env.env_id)"><span class="glyphicon glyphicon-remove"></span>删除</a>
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="panel-body" ng-show="showVar[$index]">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                <th> 变量名</th>
+                                <th> 变量值</th>
+                                <th> 描述</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="varEnv in envVarList">
+                                        <td ng-bind="varEnv.var_name"></td>
+                                        <td ng-bind="varEnv.var_value"></td>
+                                        <td ng-bind="varEnv.var_desc"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right" ng-show="totalItems>10">
+                    <pagination boundary-links="true" total-items="envTotalItems" ng-model="envCurrentPage" ng-change="pageChanged(1)"
+                                class="pagination" previous-text="上一页" next-text="下一页" first-text="&laquo;" last-text="&raquo;">
+                </div>
+            </div>
+            <div class="panel-body" ng-show="showEnvCom">
+                <div ng-repeat="varNum in varPageList">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4 class="panel-title" ng-mouseenter="shownCom=true" ng-mouseleave="shownCom=false">
+                                <a ng-click="getVarEnv(varNum.var_id,$index)" ng-bind="varNum.var_name" ></a>
+                                <div class="pull-right">
+                                    <a class="op" ng-show="shownCom" ng-click="editVar(varNum.var_id)"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+                                    <a class="op" ng-show="shownCom" ng-click="cfDelVar(varNum.var_id)"><span class="glyphicon glyphicon-remove"></span>删除</a>
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="panel-body" ng-show="showEnv[$index]">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                <th> 环境</th>
+                                <th> 变量值</th>
+                                <th> 描述</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="envVar in var.value">
+                                        <td ng-bind="envVar.env_name"></td>
+                                        <td ng-bind="envVar.var_value"></td>
+                                        <td ng-bind="varNum.var_desc"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right marginRight" ng-show="totalItems>10">
+                    <pagination boundary-links="true" total-items="varTotalItems" ng-model="varCurrentPage" ng-change="pageChanged(2)"
+                                class="pagination" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="envAddModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        添加环境
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">环境名：</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" placeholder="请输入环境名称" ng-model="env.env_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">描述：</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" placeholder="请输入环境描述" ng-model="env.env_desc">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="saveEnv()">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+     </div>
+
+    <div class="modal fade" id="editEnvModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        编辑环境
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">环境名：</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" placeholder="请输入环境名称" ng-model="env.env_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">描述：</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" placeholder="请输入环境描述" ng-model="env.env_desc">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="saveEnvEdit(env.env_id)">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+     </div>
+
+    <div class="modal fade" id="varAddModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        添加变量
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">变量名：</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" placeholder="请输入变量名称" ng-model="var.var_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">变量值：</label>
+                            <div class="col-md-10">
+                                <div class="panel panel-info">
+                                    <div class="panel-body">
+                                        <div ng-repeat="env in envList">
+                                            <label class="col-md-3 control-label" ng-bind="env.env_name"></label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" placeholder="请输入变量值" ng-model="var.value[$index].var_value">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">描述：</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" placeholder="请输入变量描述" ng-model="var.var_desc">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="saveVar()">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+     </div>
+
+    <div class="modal fade" id="editvarModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        编辑变量
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">变量名：</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" placeholder="请输入变量名称" ng-model="var.var_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">变量值：</label>
+                            <div class="col-md-10">
+                                <div class="panel panel-info">
+                                    <div class="panel-body">
+                                        <div ng-repeat="env in envList">
+                                            <label class="col-md-3 control-label" ng-bind="env.env_name"></label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" placeholder="请输入变量值" ng-model="var.value[$index].var_value">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">描述：</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" placeholder="请输入变量描述" ng-model="var.var_desc">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="saveVarEdit(var.var_id)">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div  class="modal fade" id="cfModalVar" aria-hidden="true" >
+         <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+                    <h4 class="modal-title">
+                        删除变量
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>在各个环境下的改变量均会被删除，请确认是否删除？？</p>
+                </div>
+                <div class="modal-footer btn_div">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" ng-click="delVar()">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cfModalEnv" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+                    <h4 class="modal-title">
+                        删除环境
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    该环境下的变量均会被删除，请确认是否删除？？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="delEnv()">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+     </div>
+
+    <!-- 删除项目模态框 -->
+    <div  class="modal fade" id="delEnvModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        确认
+                    </h4>
+                </div>
+                <div class="modal-body" id="myModal">
+                    <div class="modal-body-div">
+                        <p>该环境下的变量均会被删除，请确认是否删除？？</p>
+                    </div>
+                </div>
+                <div class="modal-footer btn_div">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" ng-click="delEnv()">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+<div>
+    <div class="row">
+        <div class="wid sidebar">
+            <ul class="contain nav nav-pills nav-stacked nav-sidebar">
+                <li class="{$activeList[0]$}"><a ng-click="active(0)">请求</a></li>
+                <li class="{$activeList[1]$}"><a ng-click="active(1)">数据生成</a></li>
+            </ul>
+        </div>
+        <div class="dis container-fluid">
+            <div class="top1">
+                <div id="request_tool" ng-show="activeList[0]=='active'">
+                    <div>
+                        <h1 class="page-header text-primary">请求</h1>
+                    </div>
+                    <div class="col-md-12 top3">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">请求方法：</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control" ng-init="request.method='POST'"
+                                                    ng-model="request.method">
+                                                <option>POST</option>
+                                                <option>GET</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">URL：</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" ng-model="request.url">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">请求头：</label>
+                                        <div class="col-md-8">
+                                            <textarea type="text" rows="5" class="form-control"
+                                                      ng-model="request.header"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">请求体：</label>
+                                        <div class="col-md-8">
+                                            <textarea type="text" rows="5" class="form-control"
+                                                      ng-model="request.body"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">请求次数：</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" ng-model="request.num">
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-default  col-md-offset-10" data-dismiss="modal"
+                                            ng-click="test()">提交
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div ng-hide=flag_done_success>
+                            <h3 class="text-success">运行完毕</h3>
+                        </div>
+                        <div ng-hide=flag_done_fail>
+                            <h3 class="text-danger" ng-bind="flag_text"></h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="create_tool" ng-show="activeList[1]=='active'">
+                    <div>
+                        <h1 class="page-header text-primary">数据生成</h1>
+                    </div>
+                    <div class="col-md-12 top3">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">请求方法：</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control" ng-init="request.method='POST'"
+                                                    ng-model="request.method">
+                                                <option>POST</option>
+                                                <option>GET</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">URL：</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" ng-model="request.url">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">请求头：</label>
+                                        <div class="col-md-8">
+                                            <textarea type="text" rows="5" class="form-control"
+                                                      ng-model="request.header"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">请求体：</label>
+                                        <div class="col-md-8">
+                                            <textarea type="text" rows="5" class="form-control"
+                                                      ng-model="request.body"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">请求次数：</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" ng-model="request.num">
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-default  col-md-offset-10" data-dismiss="modal"
+                                            ng-click="test()">提交
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div ng-hide=flag_done_success>
+                            <h3 class="text-success">运行完毕</h3>
+                        </div>
+                        <div ng-hide=flag_done_fail>
+                            <h3 class="text-danger" ng-bind="flag_text"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

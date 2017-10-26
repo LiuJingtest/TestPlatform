@@ -1,0 +1,307 @@
+<div class="top1">
+    <div>
+        <h1 class="page-header text-primary">API依赖库</h1>
+    </div>
+    <div class="col-md-1 pull-right">
+        <button type="button" class="btn btn-info" ng-click="addAPIDep()">
+            <span class="glyphicon glyphicon-plus"></span> 添加
+        </button>
+    </div>
+    <div class="col-md-12 top3" ng-show="pageList.length!=0">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div ng-repeat="Dep in pageList">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4 class="panel-title" ng-mouseenter="shownCom=true" ng-mouseleave="shownCom=false">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <input type="text" class="form-control"
+                                               ng-show="edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null"
+                                               ng-model="Dep.depnd_api_name">
+                                        <a class="marginLeft" ng-bind="Dep.depnd_api_name"
+                                           ng-show="!(edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null)"
+                                           ng-click="apiDepDetail(Dep,$index)"></a>
+                                    </div>
+                                    <!--
+                                    <div class="pull-right">
+                                        <a ng-show="shownCom" ng-click="editApiDep(Dep,$index)"><span
+                                                class="glyphicon glyphicon-pencil"></span>编辑</a>
+                                        <a ng-show="shownCom" ng-click="cfdelapiDep(Dep.depnd_api_id)"><span
+                                                class="glyphicon glyphicon-remove"></span>删除</a>
+                                    </div>
+                                    -->
+                                </div>
+                            </h4>
+                        </div>
+                        <div
+                                ng-show="showDetail[$index] && (apiDepId==Dep.depnd_api_id||Dep.depnd_api_id==null)">
+                            <div class="panel-body btn-group pull-right">
+                                <button type="button" class="btn btn-default" ng-click="saveapiDep(Dep,selected)">保存
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="editApiDep(Dep,$index)">编辑
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="cfdelapiDep(Dep.depnd_api_id)">
+                                    删除
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="runAPIDep(Dep)">运行</button>
+
+                            </div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <tr>
+                                        <td class="detailTable1">请求协议</td>
+                                        <td class="detailTable2">
+                                            <span ng-show="!(edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null)"
+                                                  ng-bind="Dep.depnd_api_protocol"></span>
+                                            <select class="form-control"
+                                                    ng-show="edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null"
+                                                    ng-model="Dep.depnd_api_protocol"
+                                                    ng-options="protocol for protocol in protocolType">
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="detailTable1">请求方式</td>
+                                        <td class="detailTable2">
+                                            <span ng-show="!(edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null)"
+                                                  ng-bind="Dep.depnd_api_method"></span>
+                                            <select class="form-control"
+                                                    ng-show="edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null"
+                                                    ng-model="Dep.depnd_api_method"
+                                                    ng-options="method for method in methodType">
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="detailTable1">数据格式</td>
+                                        <td class="detailTable2">
+                                            <span ng-show="!(edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null)"
+                                                  ng-bind="Dep.depnd_api_type"></span>
+                                            <select class="form-control"
+                                                    ng-show="edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null"
+                                                    ng-model="Dep.depnd_api_type"
+                                                    ng-options="type for type in typeType">
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="detailTable1">请求url</td>
+                                        <td class="detailTable2">
+                                            <span ng-show="!(edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null)"
+                                                  ng-bind="Dep.depnd_api_url"></span>
+                                            <input type="text" class="col-md-12"
+                                                   ng-show="edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null"
+                                                   ng-model="Dep.depnd_api_url">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="detailTable1">请求体</td>
+                                        <td class="detailTable2">
+                                            <span ng-show="!(edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null)"
+                                                  ng-bind="Dep.depnd_api_param"></span>
+                                            <textarea type="text" class="col-md-12" rows="3"
+                                                      ng-show="edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null"
+                                                      ng-model="Dep.depnd_api_param">
+                                            </textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="detailTable1">请求描述</td>
+                                        <td class="detailTable2">
+                                            <span ng-show="!(edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null)"
+                                                  ng-bind="Dep.depnd_api_desc"></span>
+                                            <input type="text" class="col-md-12"
+                                                   ng-show="edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null"
+                                                   ng-model="Dep.depnd_api_desc">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="detailTable1">依赖接口</td>
+                                        <td class="detailTable2">
+                                            <span ng-show="!(edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null)"
+                                                  ng-bind="apiDepName"></span>
+                                            <select class="form-control"
+                                                    ng-show="edit && editId==Dep.depnd_api_id || Dep.depnd_api_id == null"
+                                                    ng-model="selected"
+                                                    ng-options="apiDep1.depnd_api_id as apiDep1.depnd_api_name for apiDep1 in apiDepList1">
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right" ng-show="totalItems>10">
+                    <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage"
+                                ng-change="pageChanged()"
+                                class="pagination" previous-text="上一页" next-text="下一页" first-text="&laquo;"
+                                last-text="&raquo;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addapiDep" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        添加依赖接口
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">依赖接口名：</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" placeholder="请输入依赖接口名称"
+                                       ng-model="apiDep.depnd_api_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">描述：</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" placeholder="请输入依赖接口描述"
+                                       ng-model="apiDep.depnd_api_desc">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="moreDetail(apiDep)">确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cfapiDep">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+                    <h4 class="modal-title">
+                        删除依赖接口
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    确定删除该依赖接口？？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="delapiDep()">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="runAPIDep" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        运行
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">所属环境：</label>
+                            <div class="col-md-8">
+                                <select class="form-control" ng-model="env"
+                                        ng-options="env.env_name for env in envList">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary"
+                            ng-click="getAPIDepResult(apiDep.depnd_api_id,env.env_id)">
+                        执行
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="apiDepResult" aria-hidden="true">
+        <div class="modal-dialog modalWidth">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        运行
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">URL：</label>
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" ng-model="apiDepResult.url"
+                                       style="background-color: white" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">请求：</label>
+                            <div class="col-md-11">
+                                <textarea type="text" class="form-control" rows="3"
+                                          ng-model="apiDepResult.request_body" style="background-color: white" readonly>
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">状态码：</label>
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" ng-model="apiDepResult.status"
+                                       style="background-color: white" readonly>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">响应头：</label>
+                            <div class="col-md-11">
+                                <textarea type="text" class="form-control" rows="3"
+                                          ng-model="apiDepResult.header" style="background-color: white"
+                                          readonly>
+                                </textarea>
+                            </div>
+                        </div>
+                        -->
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">响应体：</label>
+                            <div class="col-md-11">
+                                <textarea type="text" class="form-control" rows="6"
+                                          ng-model="apiDepResult.response_body" style="background-color: white"
+                                          readonly>
+                                </textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

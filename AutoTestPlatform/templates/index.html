@@ -1,0 +1,47 @@
+<html lang="zh-CN" ng-app="autoTest">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>自动化平台</title>
+    {% load staticfiles %}
+    <link href="{% static 'libs/style/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'libs/style/ui-grid.min.css' %}" rel="stylesheet">
+    <link href="{% static 'libs/style/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+    <link href="{% static 'app/style/project.css' %}" rel="stylesheet">
+    <link href="{% static 'app/style/carousel.css' %}" rel="stylesheet">
+</head>
+<body>
+<div ui-view></div>
+</body>
+{% load staticfiles %}
+<script src="{% static 'libs/script/jquery-3.1.0.min.js' %}"></script>
+<script src="{% static 'libs/script/bootstrap.min.js' %}"></script>
+<script src="{% static 'libs/script/angular/angular.min.js' %}"></script>
+<script src="{% static 'libs/script/angular/angular-cookies.min.js' %}"></script>
+<script src="{% static 'libs/script/Chart.min.js' %}"></script>
+<script src="{% static 'libs/script/angular-ui-router.js' %}"></script>
+<script src="{% static 'libs/script/angular-chart.min.js' %}"></script>
+<script src="{% static 'libs/script/elastic.js' %}"></script>
+<script src="{% static 'libs/script/bootstrap-datetimepicker.js' %}"></script>
+<script src="{% static 'libs/script/bootstrap-datetimepicker.fr.js' %}"></script>
+<script src="{% static 'libs/script/ui-bootstrap-tpls.js' %}"></script>
+<script src="{% static 'app/script/app.js' %}"></script>
+<script src="{% static 'app/script/project/mainCtrl.js' %}"></script>
+<script src="{% static 'app/script/project/itemsCtrl.js' %}"></script>
+<script src="{% static 'app/script/project/navigationCtrl.js' %}"></script>
+<script src="{% static 'app/script/interface/templateCtrl.js' %}"></script>
+<script src="{% static 'app/script/interface/homepage/homepageCtrl.js' %}"></script>
+<script src="{% static 'app/script/interface/globalVar/globalVarCtrl.js' %}"></script>
+<script src="{% static 'app/script/interface/functions/funcCtrl.js' %}"></script>
+<script src="{% static 'app/script/interface/checker/checkerCtrl.js' %}"></script>
+<script src="{% static 'app/script/interface/apiCase/apiCaseCtrl.js' %}"></script>
+<script src="{% static 'app/script/interface/apiDepend/APIDependencyCtrl.js' %}"></script>
+<script src="{% static 'app/script/interface/plan/planCtrl.js' %}"></script>
+<script src="{% static 'app/script/interface/record/recordCtrl.js' %}"></script>
+<script src="{% static 'app/script/interface/report/reportCtrl.js' %}"></script>
+<script src="{% static 'app/script/tools/toolsCtrl.js' %}"></script>
+<script src="{% static 'app/script/appPerformance/testCtrl.js' %}"></script>
+
+</html>

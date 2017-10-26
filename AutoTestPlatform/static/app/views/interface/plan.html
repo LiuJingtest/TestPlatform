@@ -1,0 +1,282 @@
+<div class="top1">
+    <div>
+        <h1 class="page-header text-primary">添加定时任务</h1>
+    </div>
+    <div class="marginRight pull-right">
+        <button class="btn btn-info" ng-click="addPlan()"><span class="glyphicon glyphicon-plus"></span>添加</button>
+    </div>
+    <div class="col-md-12 top3">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="nav nav-tabs">
+                            <li class="{$selectList[0]$}">
+                                <a ng-click="showSelect(0)">全部</a>
+                            </li>
+                            <li class="{$selectList[1]$}">
+                                <a ng-click="showSelect(1)">进行中</a>
+                            </li>
+                            <li class="{$selectList[2]$}">
+                                <a ng-click="showSelect(2)">已完成</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div ng-repeat="plan in pageList">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"  ng-mouseenter="shownCom=true" ng-mouseleave="shownCom=false" >
+                                 <div class="row">
+                                     <div class="col-xs-4">
+                                     <a class="marginLeft" ng-bind="plan.plan_name" ng-click="getTaskDetail(plan.plan_id,$index)"></a>
+                                     </div>
+                                     <div class="pull-right">
+                                         <a ng-show="shownCom" ng-click="editPlan(plan.plan_id)"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+                                         <a ng-show="shownCom" ng-click="cfDelPlan(plan.plan_id)"><span class="glyphicon glyphicon-remove"></span>删除</a>
+                                     </div>
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="panel-body" ng-show="showDetail[$index]">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <td class="wid1">名称</td>
+                                    <td class="wid2" ng-bind="plan.plan_name"></td>
+                                </tr>
+                                </thead>
+                                <tr>
+                                    <td class="wid1">类型</td>
+                                    <td class="wid2" ng-bind="plan_type"></td>
+                                    <td class="wid1">间隔</td>
+                                    <td class="wid2" ng-bind="plan.plan_interval+'s'"></td>
+                                </tr>
+                                <tr>
+                                    <td class="wid1">开始时间</td>
+                                    <td class="wid2" ng-bind="plan.start_time*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td>
+                                    </td></td>
+                                    <td class="wid1">结束时间</td>
+                                    <td class="wid2" ng-bind="plan.end_time*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td>
+                                </tr>
+                                <tr>
+                                    <td class="wid1">套件</td>
+                                    <td class="wid2" ng-bind="suite.suite_name"></td>
+                                    <td class="wid1">运行环境</td>
+                                    <td class="wid2" colspan="3" ng-bind="env.env_name"></td>
+                                </tr>
+                                <tr>
+                                    <td class="wid1"></td>
+                                    <td class="wid2"></td>
+                                    <td class="wid1"></td>
+                                    <td class="wid2"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right" ng-show="totalItems>10">
+                    <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"
+                                class="pagination" previous-text="上一页" next-text="下一页" first-text="&laquo;" last-text="&raquo;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addPlanModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        添加定时任务
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">名称：</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" ng-model="plan.plan_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">类型：</label>
+                            <div class="col-md-3">
+                                <select class="form-control" ng-model="selected3"
+                                        ng-options="type.type_id as type.type_name for type in typeList">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="selected3==2">
+                            <label class="col-md-3 control-label">间隔：</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" ng-model="plan.plan_interval">
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" ng-model="inteval"
+                                        ng-options="inteval for inteval in intevalType">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">开始时间：</label>
+                            <div class="col-md-8 ">
+                                <div class="input-group date form_datetime" ddata-date="1979-09-16T05:25:07Z" >
+                                    <input type="text" class="form-control" readonly style="background-color: white" ng-model="plan.start_time">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="selected3==2">
+                            <label class="col-md-3 control-label">结束时间：</label>
+                            <div class="col-md-8 ">
+                                <div class="input-group date form_datetime" ddata-date="1979-09-16T05:25:07Z" >
+                                    <input type="text" class="form-control" readonly style="background-color: white" ng-model="plan.end_time">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">运行环境：</label>
+                            <div class="col-md-3">
+                                <select class="form-control" ng-model="selected1"
+                                        ng-options="env.env_id as env.env_name for env in envList">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">套件：</label>
+                            <div class="col-md-3">
+                                <select class="form-control" ng-model="selected2"
+                                        ng-options="suite.suite_id as suite.suite_name for suite in suiteList">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                     <btn class="btn btn-default" ng-click="saveTask(inteval,selected1,selected2,selected3)">保存</btn>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editPlanModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        编辑定时任务
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">名称：</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" ng-model="plan.plan_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">类型：</label>
+                            <div class="col-md-3">
+                                <select class="form-control" ng-model="selected3"
+                                        ng-options="type.type_id as type.type_name for type in typeList">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="selected3==2">
+                            <label class="col-md-3 control-label">间隔：</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" ng-model="plan.plan_interval">
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" ng-model="inteval"
+                                        ng-options="inteval for inteval in intevalType">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">开始时间：</label>
+                            <div class="col-md-8 ">
+                                <div class="input-group date form_datetime" ddata-date="1979-09-16T05:25:07Z" >
+                                    <input type="text" class="form-control" readonly style="background-color: white" ng-model="plan.start_time">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="selected3==2">
+                            <label class="col-md-3 control-label">结束时间：</label>
+                            <div class="col-md-8 ">
+                                <div class="input-group date form_datetime" ddata-date="1979-09-16T05:25:07Z" >
+                                    <input type="text" class="form-control" readonly style="background-color: white" ng-model="plan.end_time">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">运行环境：</label>
+                            <div class="col-md-3">
+                                <select class="form-control" ng-model="selected1" ng-disabled="readOnly" style="background-color: white"
+                                        ng-options="env.env_id as env.env_name for env in envList">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">套件：</label>
+                            <div class="col-md-3">
+                                <select class="form-control" ng-model="selected2" ng-disabled="readOnly" style="background-color: white"
+                                        ng-options="suite.suite_id as suite.suite_name for suite in suiteList">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                     <btn class="btn btn-default" ng-click="saveTask(inteval,selected1,selected2,selected3)">保存</btn>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cfDelPlan" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+                    <h4 class="modal-title">
+                        删除定时任务
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    确定删除该定时任务？？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="delPlan()">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

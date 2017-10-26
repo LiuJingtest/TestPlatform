@@ -1,0 +1,171 @@
+<div class="top1">
+    <div>
+        <h1 class="page-header text-primary">验证器</h1>
+    </div>
+    <div class="col-md-1 pull-right">
+        <button class="btn btn-info" ng-click="addCheck()"><span class="glyphicon glyphicon-plus"></span>添加</button>
+    </div>
+    <div class="col-md-12 top3" ng-show="checkList.length!=0">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div ng-repeat="check in pageList">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"  ng-mouseenter="shownCom=true" ng-mouseleave="shownCom=false" >
+                                 <div class="row">
+                                     <div class="col-xs-4">
+                                     <input type="text" class="form-control" ng-show="edit && editCheckId==check.check_id" ng-model="check.check_desc">
+                                     <a class="marginLeft" ng-bind="check.check_desc" ng-show="!(edit && editCheckId==check.check_id)" ng-click="checkDetail(check.check_id,$index)"></a>
+                                     </div>
+                                     <div class="pull-right">
+                                         <a ng-show="shownCom" ng-click="editCheck(check.check_id,$index)"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+                                         <a ng-show="shownCom" ng-click="cfDelCheck(check.check_id)"><span class="glyphicon glyphicon-remove"></span>删除</a>
+                                     </div>
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="panel-body" ng-show="showcheck[$index]&&(checkId==check.check_id || check.check_id==null)">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <ul class="nav nav-tabs">
+                                        <li class="{$activeList2[0]$}" >
+                                            <a ng-click="active4(0)">基本信息</a>
+                                        </li>
+                                        <li class="{$activeList2[1]$}" >
+                                            <a ng-click="active4(1)">代码</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="pull-right">
+                                        <button class="btn btn-default" ng-click="saveCheck(check)">保存</button>
+                                        <button class="btn btn-default" ng-click="runCheck(check)"><span class="glyphicon glyphicon-play"></span>运行</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="top3">
+                                <table class="table" ng-show="formation && !edit">
+                                    <thead>
+                                        <tr>
+                                            <td class="wid6">函数名</td>
+                                            <td class="wid7" ng-bind="check.check_name"></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="wid6">描述</td>
+                                            <td class="wid7" ng-bind="check.check_desc"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div ng-show="formation && edit">
+                                    <form class="col-md-10 bs-example bs-example-form">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">函数名</span>
+                                            <input type="text" class="form-control" ng-model="check.check_name">
+                                        </div>
+                                    </form>
+                                    <form class="col-md-10 bs-example bs-example-form">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">描述</span>
+                                            <input type="text" class="form-control" ng-model="check.check_desc">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div ng-show="code">
+                                <textarea class="form-control msd-elastic: \n;" rows="10" ng-model="check.check_code">
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right" ng-show="totalItems>10">
+                    <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"
+                                class="pagination" previous-text="上一页" next-text="下一页" first-text="&laquo;" last-text="&raquo;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addCheck" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        添加验证器
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">验证器名：</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" placeholder="请输入验证器名称" ng-model="check.check_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">描述：</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" placeholder="请输入验证器描述" ng-model="check.check_desc">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="moreCheckDetail(check)">确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="runCheck" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        代码运行结果
+                    </h4>
+                </div>
+                <div class="modal-body" >
+                    <h5 ng-bind="runResult.output"></h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cfDelCheck" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+                    <h4 class="modal-title">
+                        删除验证器
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    确定删除该验证器？？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="delCheck()">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

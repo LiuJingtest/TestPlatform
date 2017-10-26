@@ -1,0 +1,36 @@
+<div class="top1">
+    <div>
+        <h1 class="page-header text-primary">项目首页</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="col-md-10">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p class="panel-title"><span class="glyphicon glyphicon glyphicon-signal"></span>&nbsp测试结果</p>
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="line" class="chart chart-line" chart-data="data"
+                                    chart-labels="labels" chart-series="series" chart-options="options"
+                                    chart-dataset-override="datasetOverride" chart-colors="colors">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p class="panel-title"><span class="glyphicon glyphicon glyphicon-signal"></span>&nbsp计划任务</p>
+                        </div>
+                        <div class="panel-body">
+                            <div ng-repeat="plan in planList">
+                                <a class="col-md-10" ng-bind="plan.plan_name" ng-click="gotoPlan(plan.plan_id)"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+APScheduler==3.3.1
+Django==1.10.5
+jsonschema==2.6.0
+PyMySQL==0.7.9
+pytz==2016.10
+requests==2.13.0
+six==1.10.0
+tzlocal==1.3
